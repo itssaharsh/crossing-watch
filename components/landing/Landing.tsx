@@ -268,10 +268,12 @@ function Honest() {
     "Rain: the JKUAT station's own readings, 6–24 March 2026.",
     "Kimbo–Matangi flooded after the March rain (The Star, 9 Mar 2026). That report sets its trigger.",
     "Rivers, roads and detours: OpenStreetMap, routed at boda speed.",
+    "A storm it never saw: trained on March only, it called Kimbo–Matangi red at 23:00 on 27 April. The Star photographed the road flooded the next day.",
   ];
   const unknown = [
     "Triggers start from a single storm. Wide, dashed bands on screen say so, and every tap narrows them.",
     "The exact flooded spot on Kimbo–Matangi, and the route riders call Theta Road, still need a rider to pin them.",
+    "Drain times are rough. After that April storm it said cross at 04:15, but the road was still waterlogged later that day.",
     "No rider survey yet. The Kiswahili copy needs a native speaker's review.",
   ];
   return (

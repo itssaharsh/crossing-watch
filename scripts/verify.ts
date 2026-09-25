@@ -15,6 +15,7 @@ import { qc } from "../lib/model/faults";
 import { findStorms } from "../lib/model/storms";
 import { parseEat } from "../lib/model/time";
 import { STEP_MS, type Call, type Crossing, type Report, type Series } from "../lib/model/types";
+import { heldOut, transitions } from "./backtest";
 
 let failed = 0;
 const check = (ok: boolean, label: string, detail = "") => {
@@ -98,6 +99,20 @@ console.log("\n# Simulated series (fallback when no station file)");
   check(km != null && km >= parseEat("2026-03-18T16:15") && km <= parseEat("2026-03-18T17:30"), "Wed 18 Mar: Kimbo–Matangi goes REROUTE between 16:15 and 17:30", hm(km));
   const outage = W.range("kimbo-matangi", "2026-03-23T17:15", "2026-03-23T17:45");
   check(outage.every((c) => c.call === "nocall"), "no CROSS while both gauges are silent (23 Mar outage)");
+}
+
+// ---------- held-out storm ----------
+console.log("\n# Held-out: 27 Apr storm, triggers learned on March only, no reports");
+{
+  const { series, models } = heldOut();
+  const km = models["kimbo-matangi"];
+  const firstReroute = (from: string, to: string) =>
+    transitions(series, km, parseEat(from), parseEat(to)).find((x) => x.call === "reroute")?.t ?? null;
+  const night = firstReroute("2026-04-27T21:00", "2026-04-28T06:00");
+  check(night != null, "Kimbo–Matangi goes REROUTE on the night of 27 Apr, before The Star's 28 Apr story", hm(night));
+  const before = firstReroute("2026-04-18T00:00", "2026-04-27T21:00");
+  const after = firstReroute("2026-04-28T12:00", "2026-05-01T00:00");
+  check(before == null && after == null, "…and not on the smaller April storms (21, 26 and 28 Apr)");
 }
 
 // ---------- import ----------

@@ -10,6 +10,7 @@
     "typecheck": "next typegen && tsc --noEmit",
     "test": "vitest run",
     "verify": "tsx scripts/verify.ts",
+    "backtest": "tsx scripts/backtest.ts",
     "data:demo": "tsx scripts/make-demo-data.ts",
     "data:ingest": "tsx scripts/ingest.ts",
     "data:geo": "tsx scripts/build-geo.ts"

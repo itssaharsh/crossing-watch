@@ -60,6 +60,7 @@ flowchart LR
 | Claim | Proof |
 |---|---|
 | Works on the real station data | `npm run verify`: on the 20 Mar storm, Kimbo–Matangi goes REROUTE via Theta Road at 18:00 saying it clears in ~2½ h; the call eases to WAIT at 20:30 and is back to CROSS at 21:15. |
+| Calls a storm it never saw | `npm run backtest`: triggers learned on March only, then run on 18–30 Apr with no reports. Kimbo–Matangi goes REROUTE at 23:00 on 27 Apr, 1½ h into a 95 mm night storm. The Star photographed the road flooded on 28 Apr "after heavy rains pounded the area last night". The three smaller April storms (9–24 mm) stay CROSS. |
 | Each crossing has its own signature | Same run: the JKUAT culvert clears at 20:15, Kimbo–Matangi at 21:15, the Ndarugu river at 01:30. |
 | Every tap sharpens it | Same run: one "flooded" tap at Ndarugu narrows its trigger from 28–88 mm to 25–57 mm (45% narrower) and flips WAIT → REROUTE. |
 | Handles broken gauges | The station's `rg1` column under-reports about 17×, so rain is read from its running daily total. Gauge 2's "rain" column is really the light sensor (r = 0.9999 with `si1145_vis`), so it's ignored. See the Data health tab and [ADR 004](docs/adr/004-station-data-and-fallback.md). |
@@ -70,7 +71,7 @@ flowchart LR
 
 | | Status |
 |---|---|
-| Rain series | **Real**: Conduit@Empathy station at JKUAT (CHORDS sensor 61), 6–24 Mar 2026, in `data/fixtures/`. Every row matches the Conduit dashboard archive for those dates. A **simulated** fallback series (clearly labelled) runs when no station file is present. |
+| Rain series | **Real**: Conduit@Empathy station at JKUAT (CHORDS sensor 61), 6–24 Mar 2026, in `data/fixtures/`. Every row matches the Conduit dashboard archive for those dates. The held-out April rows (18–30 Apr) come from the same dashboard export, archived in [Afya-Mazingira](https://github.com/vinnienovah/Afya-Mazingira) (MIT). A **simulated** fallback series (clearly labelled) runs when no station file is present. |
 | Flood report that sets Kimbo–Matangi's trigger | **Real**: The Star, 9 Mar 2026, used as "flooded at some point" between the storm and publication. |
 | Other crossings' triggers | **Estimates** by crossing type until someone reports; wide dashed bands say so. |
 | Crossing locations, map, detours | **Real OpenStreetMap geometry**. The exact flooded spot on Kimbo–Matangi is approximate. Detours are shortest paths on OSM roads at boda speed (≈25 km/h). |
@@ -82,6 +83,7 @@ flowchart LR
 npm install
 npm run dev              # http://localhost:3000  (use: npx next dev -p 3100 if 3000 is busy)
 npm run verify           # the demo scenario, headless, PASS/FAIL
+npm run backtest         # the held-out April storm, call by call
 ```
 
 | Route | What it is |
@@ -118,6 +120,7 @@ Other scripts: `npm test`, `npm run lint`, `npm run typecheck`, `npm run data:ge
 ## Limitations
 
 - Triggers start from a single storm and a single dated news report. They become trustworthy only as riders report. The bands show this honestly.
+- Drain times are set per crossing type, not fitted. In the April test Kimbo–Matangi went back to CROSS at 04:15, but The Star's photos from later on 28 Apr still show standing water: this dip drains slower than the 1.5 h we gave it.
 - One gauge serves every crossing; the Ndarugu bridge is 13 km from it.
 - No user survey yet: the next step is a pilot with three boda stages and JKUAT before the October rains.
 - The Swahili copy needs review by a native speaker.
@@ -125,4 +128,4 @@ Other scripts: `npm test`, `npm run lint`, `npm run typecheck`, `npm run data:ge
 
 ## Credits
 
-Map data © OpenStreetMap contributors (ODbL). Rain data: JHUB Africa Conduit station, JKUAT. News sources are linked above and on `/how`. Built with Claude Code. Design system in [DESIGN.md](DESIGN.md); architecture decisions in [docs/adr](docs/adr).
+Map data © OpenStreetMap contributors (ODbL). Rain data: JHUB Africa Conduit@Empathy station, JKUAT; April rows via the Afya-Mazingira archive. News sources are linked above and on `/how`. Built with Claude Code. Design system in [DESIGN.md](DESIGN.md); architecture decisions in [docs/adr](docs/adr).

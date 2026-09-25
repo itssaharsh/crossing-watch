@@ -100,7 +100,7 @@ interface Prepared {
   nStorms: number;
 }
 
-function prepare(series: Series, clean: CleanSeries, c: Crossing, reports: Report[]): Prepared {
+function prepare(series: Series, clean: CleanSeries, c: Crossing, reports: Report[], learned?: Float64Array): Prepared {
   const gid = clean.rain[c.gaugeId] ? c.gaugeId : series.gauges[0]?.id;
   const rain = clean.rain[gid] ?? new Float64Array(series.n);
   const unknown = clean.unknown[gid] ?? new Uint8Array(series.n);
@@ -124,7 +124,7 @@ function prepare(series: Series, clean: CleanSeries, c: Crossing, reports: Repor
     if (i < 0 || i >= series.n) continue;
     obs.push({ reportId: r.id, i, level: level[i], status: r.status, weight: SOURCE_WEIGHT[r.source] ?? 0.8 });
   }
-  const pri = prior(c.priorMedian);
+  const pri = learned ?? prior(c.priorMedian);
   const post = posterior(pri, obs);
   const table = pTable(post);
   const p = new Float32Array(series.n);
@@ -233,9 +233,16 @@ export function applyHysteresis(raw: StepCall[]): StepCall[] {
   return out;
 }
 
-export function buildModels(series: Series, clean: CleanSeries, crossings: Crossing[], reports: Report[]): Record<string, CrossingModel> {
+/** `learned` carries triggers learned on another series (a held-out test): it replaces each crossing's prior. */
+export function buildModels(
+  series: Series,
+  clean: CleanSeries,
+  crossings: Crossing[],
+  reports: Report[],
+  learned?: Record<string, Float64Array>,
+): Record<string, CrossingModel> {
   const prepared: Record<string, Prepared> = {};
-  for (const c of crossings) prepared[c.id] = prepare(series, clean, c, reports);
+  for (const c of crossings) prepared[c.id] = prepare(series, clean, c, reports, learned?.[c.id]);
   const models: Record<string, CrossingModel> = {};
   for (const c of crossings) {
     const pr = prepared[c.id];
