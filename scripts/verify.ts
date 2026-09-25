@@ -66,7 +66,7 @@ if (!stationSeries) {
 
   const km1800 = W.at("kimbo-matangi", "2026-03-20T18:00");
   const via = km1800.detourIdx != null ? W.crossings.find((c) => c.id === "kimbo-matangi")!.detours[km1800.detourIdx].via : "";
-  check(km1800.call === "reroute" && via === "Theta Road", "18:00 Kimbo–Matangi: REROUTE via Theta Road", `${km1800.call} via ${via || "-"}`);
+  check(km1800.call === "reroute" && via === "Kenyatta Road", "18:00 Kimbo–Matangi: REROUTE via Kenyatta Road", `${km1800.call} via ${via || "-"}`);
   const dur = (km1800.tClearMin ?? 0) / 60;
   check(dur >= 1.5 && dur <= 2.5, "…and says it clears in about 2 h", `${dur.toFixed(2)} h`);
   check(W.range("kimbo-matangi", "2026-03-20T15:00", "2026-03-20T17:15").every((c) => c.call === "cross"), "Kimbo–Matangi is CROSS before the storm");
@@ -111,8 +111,8 @@ console.log("\n# Held-out: 27 Apr storm, triggers learned on March only, no repo
   const night = firstReroute("2026-04-27T21:00", "2026-04-28T06:00");
   check(night != null, "Kimbo–Matangi goes REROUTE on the night of 27 Apr, before The Star's 28 Apr story", hm(night));
   const before = firstReroute("2026-04-18T00:00", "2026-04-27T21:00");
-  const after = firstReroute("2026-04-28T12:00", "2026-05-01T00:00");
-  check(before == null && after == null, "…and not on the smaller April storms (21, 26 and 28 Apr)");
+  // No check after 04:15 on 28 Apr: the road stayed flooded while the model said CROSS (a stated limitation).
+  check(before == null, "…and not on the two small storms before it (21 and 26 Apr, none reported)");
 }
 
 // ---------- import ----------

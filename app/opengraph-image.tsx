@@ -4,7 +4,7 @@ import { ImageResponse } from "next/og";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
-export const alt = "Crossing Watch: Kimbo–Matangi Road, REROUTE, likely flooded for about 2 hours, use Theta Road";
+export const alt = "Crossing Watch: Kimbo–Matangi Road, REROUTE, likely flooded for about 2 hours, use Kenyatta Road";
 
 const font = (f: string) => readFile(join(process.cwd(), "node_modules/@fontsource", f));
 
@@ -35,7 +35,7 @@ export default async function Image() {
             <span style={{ fontFamily: "Barlow", fontSize: 50 }}>Kimbo–Matangi Road</span>
             <span style={{ fontFamily: "Barlow", fontSize: 128, lineHeight: 0.9, marginTop: 8 }}>REROUTE</span>
             <span style={{ fontSize: 34, marginTop: 14, fontWeight: 700 }}>Likely flooded for ~2 h</span>
-            <div style={{ display: "flex", marginTop: 22, background: "#fff", color: "#B02617", borderRadius: 8, padding: "14px 20px", fontSize: 32, fontWeight: 700 }}>→ Use Theta Road</div>
+            <div style={{ display: "flex", marginTop: 22, background: "#fff", color: "#B02617", borderRadius: 8, padding: "14px 20px", fontSize: 32, fontWeight: 700 }}>→ Use Kenyatta Road</div>
           </div>
         </div>
       </div>

@@ -166,7 +166,7 @@ function Proof() {
         <dl className="mt-10 grid grid-cols-1 gap-x-10 gap-y-6 border-t border-line pt-8 text-[16px] leading-snug md:grid-cols-3">
           <div>
             <dt className="font-bold text-ink">Kimbo–Matangi goes red at 18:00</dt>
-            <dd className="mt-1 text-ink-muted">&ldquo;Likely flooded for two and a half hours. Use Theta Road.&rdquo; At 20:30, right on time, the call eases to wait; by 21:15 it&rsquo;s cross.</dd>
+            <dd className="mt-1 text-ink-muted">&ldquo;Likely flooded for two and a half hours. Use Kenyatta Road.&rdquo; At 20:30, right on time, the call eases to wait; by 21:15 it&rsquo;s cross.</dd>
           </div>
           <div>
             <dt className="font-bold text-ink">The campus culvert drains first</dt>
@@ -272,8 +272,8 @@ function Honest() {
   ];
   const unknown = [
     "Triggers start from a single storm. Wide, dashed bands on screen say so, and every tap narrows them.",
-    "The exact flooded spot on Kimbo–Matangi, and the route riders call Theta Road, still need a rider to pin them.",
-    "Drain times are rough. After that April storm it said cross at 04:15, but the road was still waterlogged later that day.",
+    "The flooded spot on Kimbo–Matangi comes from residents' posts, and the detour is the shortest dry route on OpenStreetMap. Riders still need to confirm both.",
+    "Drain times are rough. After that April storm it said cross at 04:15, but the road stayed flooded through 28 April.",
     "No rider survey yet. The Kiswahili copy needs a native speaker's review.",
   ];
   return (

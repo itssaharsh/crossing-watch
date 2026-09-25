@@ -295,7 +295,19 @@ interface CrossingCfg {
   id: string;
   lat: number;
   lon: number;
-  detours: { via: string; crossingId?: string; extraMin: number; path?: [number, number][]; computed?: boolean; from?: Pt; to?: Pt; avoidM?: number; km?: number }[];
+  detours: {
+    via: string;
+    crossingId?: string;
+    extraMin: number;
+    path?: [number, number][];
+    computed?: boolean;
+    from?: Pt;
+    to?: Pt;
+    /** waypoints the detour must pass, e.g. a bridge riders would use */
+    through?: Pt[];
+    avoidM?: number;
+    km?: number;
+  }[];
   [k: string]: unknown;
 }
 
@@ -349,7 +361,11 @@ async function main() {
       const a = nearestNode(graph, det.from, avoid);
       const b = nearestNode(graph, det.to, avoid);
       const direct = dijkstra(graph, a, b);
-      const around = dijkstra(graph, a, b, avoid);
+      const stops = [a, ...(det.through ?? []).map((p) => nearestNode(graph, p, avoid)), b];
+      const legs = stops.slice(1).map((s, k) => dijkstra(graph, stops[k], s, avoid));
+      const around = legs.every(Boolean)
+        ? { nodes: legs.flatMap((l, k) => (k ? l!.nodes.slice(1) : l!.nodes)), ways: legs.flatMap((l) => l!.ways), meters: legs.reduce((m, l) => m + l!.meters, 0) }
+        : null;
       if (!direct || !around) {
         console.warn(`no detour for ${c.id} via ${det.via}`);
         continue;

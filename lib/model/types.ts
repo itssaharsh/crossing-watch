@@ -29,7 +29,7 @@ export interface Series {
 }
 
 export interface Detour {
-  /** road name shown to riders, e.g. "Theta Road" */
+  /** road name shown to riders, e.g. "Kenyatta Road" */
   via: string;
   /** crossing on the detour whose call must be CROSS, if any */
   crossingId?: string;

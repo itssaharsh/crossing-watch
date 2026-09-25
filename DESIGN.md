@@ -270,7 +270,7 @@ The decision sign has no shadow. It gets its depth from a 3px inset white border
 ## Do's and Don'ts
 
 - Do keep color for meaning. If a color doesn't mean rain, a decision or soil, it's ink or grey.
-- Do write the decision as a verb plus a place: "REROUTE · use Theta Road".
+- Do write the decision as a verb plus a place: "REROUTE · use Kenyatta Road".
 - Do say how sure the call is, in words first ("likely", "may"), then numbers.
 - Don't put the accent blue on a decision sign, or a decision color on a button.
 - Don't use pins, circles or droplet icons for crossings; they are posts.

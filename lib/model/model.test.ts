@@ -106,7 +106,7 @@ describe("decisions", () => {
   const rain = [...new Array(12).fill(0), 2, 5, 9, 12, 10, 8, 5, 3, 2, 1, ...new Array(40).fill(0)];
   const s = series({ A: rain });
   const clean = qc(s);
-  const X = crossing({ detours: [{ via: "Theta Road", crossingId: "theta", extraMin: 7 }] });
+  const X = crossing({ detours: [{ via: "Kenyatta Road", crossingId: "theta", extraMin: 7 }] });
   const THETA = crossing({ id: "theta", name: "Theta", kind: "high-bridge", halfLifeH: 3, priorMedian: 90 });
   const reports: Report[] = [{ id: "r", crossingId: "x", t: T0 - 86_400_000, status: "flooded", source: "seed" }];
 
@@ -116,7 +116,7 @@ describe("decisions", () => {
     expect(calls.slice(0, 12).every((c) => c === "cross")).toBe(true);
     const k = calls.indexOf("reroute");
     expect(k).toBeGreaterThan(12);
-    expect(X.detours[m.x.calls[k].detourIdx!].via).toBe("Theta Road");
+    expect(X.detours[m.x.calls[k].detourIdx!].via).toBe("Kenyatta Road");
     expect(m.theta.calls[k].call).toBe("cross");
     expect(calls.at(-1)).toBe("cross"); // clears again
   });

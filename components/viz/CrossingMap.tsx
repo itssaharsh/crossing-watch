@@ -89,11 +89,35 @@ export function CrossingMap({
   const postXY = posts.map((p) => project(p.model.crossing.lon, p.model.crossing.lat));
   const nearPost = (X: number, Y: number) => postXY.some(([px, py]) => Math.abs(px - X) < 70 && Y - py > -52 && Y - py < 16);
 
+  // crossing names go right of their post; left if another post is in the way, below if there's no room left either
+  const box = useRef<HTMLDivElement>(null);
+  const [pxW, setPxW] = useState(0);
+  useEffect(() => {
+    const el = box.current;
+    if (!el) return;
+    const ro = new ResizeObserver(([e]) => setPxW(e.contentRect.width));
+    ro.observe(el);
+    return () => ro.disconnect();
+  }, []);
+  const side = (id: string, X: number, Y: number, text: string): "right" | "left" | "below" => {
+    if ((X - v.x) / v.w > 0.8) return "left";
+    const k = pxW / v.w;
+    if (!k) return "right";
+    const labelW = text.length * 7.6 + 8;
+    const crowded = posts.some((o, j) => {
+      if (o.id === id) return false;
+      const dx = (postXY[j][0] - X) * k;
+      return dx > 0 && dx < labelW + 20 && Math.abs((Y - postXY[j][1]) * k) < 48;
+    });
+    if (!crowded) return "right";
+    return (X - v.x) * k > labelW + 16 ? "left" : "below";
+  };
+
   const scaleKm = 2;
   const barPct = ((scaleKm * UNITS_PER_KM) / v.w) * 100;
 
   return (
-    <div className="relative w-full select-none" style={{ aspectRatio: `${v.w} / ${v.h}` }}>
+    <div ref={box} className="relative w-full select-none" style={{ aspectRatio: `${v.w} / ${v.h}` }}>
       <svg viewBox={`${v.x} ${v.y} ${v.w} ${v.h}`} className="absolute inset-0 size-full" aria-hidden preserveAspectRatio="xMidYMid meet">
         <rect x={v.x} y={v.y} width={v.w} height={v.h} fill="var(--canvas)" />
         {loading ? null : (
@@ -141,9 +165,10 @@ export function CrossingMap({
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     vectorEffect="non-scaling-stroke"
-                    initial={reduce ? false : { pathLength: 0 }}
-                    animate={{ pathLength: 1 }}
-                    transition={{ duration: 0.7, delay: 0.2, ease: [0.77, 0, 0.175, 1] }}
+                    // a fade, not a pathLength draw: dash lengths break under non-scaling strokes and stop the line short
+                    initial={reduce ? false : { opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.4, delay: 0.2, ease: [0.23, 1, 0.32, 1] }}
                   />
                   {/* a white core no road has: this is a route, not a road */}
                   <motion.path
@@ -209,7 +234,9 @@ export function CrossingMap({
         const [X, Y] = project(c.lon, c.lat);
         const sel = p.id === selectedId;
         if (!inView(X, Y)) return null;
-        const flip = (X - v.x) / v.w > 0.8;
+        const text = sel && !compact ? c.name : (c.short ?? c.name);
+        const at = side(p.id, X, Y, text);
+        const flip = at === "left";
         return (
           <button
             key={p.id}
@@ -241,11 +268,12 @@ export function CrossingMap({
             </span>
             <span
               className={cx(
-                "mb-7 whitespace-nowrap rounded-sm px-1 text-[13px] font-bold leading-5 [text-shadow:0_0_2px_var(--canvas),0_0_3px_var(--canvas),0_0_5px_var(--canvas)]",
+                "whitespace-nowrap rounded-sm px-1 text-[13px] font-bold leading-5 [text-shadow:0_0_2px_var(--canvas),0_0_3px_var(--canvas),0_0_5px_var(--canvas)]",
+                at === "below" ? "absolute left-0 top-full mt-1" : "mb-7",
                 sel ? "bg-ink text-canvas [text-shadow:none]" : "text-ink group-hover:underline",
               )}
             >
-              {sel && !compact ? c.name : (c.short ?? c.name)}
+              {text}
             </span>
           </button>
         );

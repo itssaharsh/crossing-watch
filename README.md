@@ -12,7 +12,7 @@
 
 | Rider app (`/app`) | What a rider sends to the stage WhatsApp group |
 |---|---|
-| <img src="docs/img/app.png" width="300" alt="Rider app: Kimbo–Matangi Road, REROUTE, likely flooded for about 2 hours, use Theta Road"> | ```Kimbo–Matangi Road: likely FLOODED until about 20:15.```<br>```Use Theta Road · +2 min.```<br>```Rain at JKUAT gauge 1: 30 mm in the last 3 h (18:15, Fri 20 Mar).``` |
+| <img src="docs/img/app.png" width="300" alt="Rider app: Kimbo–Matangi Road, REROUTE, likely flooded for about 2 hours, use Kenyatta Road"> | ```Kimbo–Matangi Road: likely FLOODED until about 20:15.```<br>```Use Kenyatta Road · +13 min.```<br>```Rain at JKUAT gauge 1: 30 mm in the last 3 h (18:15, Fri 20 Mar).``` |
 
 ## The problem, with receipts
 
@@ -59,8 +59,8 @@ flowchart LR
 
 | Claim | Proof |
 |---|---|
-| Works on the real station data | `npm run verify`: on the 20 Mar storm, Kimbo–Matangi goes REROUTE via Theta Road at 18:00 saying it clears in ~2½ h; the call eases to WAIT at 20:30 and is back to CROSS at 21:15. |
-| Calls a storm it never saw | `npm run backtest`: triggers learned on March only, then run on 18–30 Apr with no reports. Kimbo–Matangi goes REROUTE at 23:00 on 27 Apr, 1½ h into a 95 mm night storm. The Star photographed the road flooded on 28 Apr "after heavy rains pounded the area last night". The three smaller April storms (9–24 mm) stay CROSS. |
+| Works on the real station data | `npm run verify`: on the 20 Mar storm, Kimbo–Matangi goes REROUTE via Kenyatta Road at 18:00 saying it clears in ~2½ h; the call eases to WAIT at 20:30 and is back to CROSS at 21:15. |
+| Calls a storm it never saw | `npm run backtest`: triggers learned on March only, then run on 18–30 Apr with no reports. Kimbo–Matangi goes REROUTE at 23:00 on 27 Apr, 1½ h into a 95 mm night storm. The Star photographed the road flooded on 28 Apr "after heavy rains pounded the area last night". The two small storms before it (21 and 26 Apr, ~10 mm, no flooding reported) stay CROSS. When the Theta bridge on the detour starts to rise at 23:30, the call drops to WAIT rather than send riders onto it. |
 | Each crossing has its own signature | Same run: the JKUAT culvert clears at 20:15, Kimbo–Matangi at 21:15, the Ndarugu river at 01:30. |
 | Every tap sharpens it | Same run: one "flooded" tap at Ndarugu narrows its trigger from 28–88 mm to 25–57 mm (45% narrower) and flips WAIT → REROUTE. |
 | Handles broken gauges | The station's `rg1` column under-reports about 17×, so rain is read from its running daily total. Gauge 2's "rain" column is really the light sensor (r = 0.9999 with `si1145_vis`), so it's ignored. See the Data health tab and [ADR 004](docs/adr/004-station-data-and-fallback.md). |
@@ -75,7 +75,8 @@ flowchart LR
 | Flood report that sets Kimbo–Matangi's trigger | **Real**: The Star, 9 Mar 2026, used as "flooded at some point" between the storm and publication. |
 | Other crossings' triggers | **Estimates** by crossing type until someone reports; wide dashed bands say so. |
 | Crossing locations, map, detours | **Real OpenStreetMap geometry**. The exact flooded spot on Kimbo–Matangi is approximate. Detours are shortest paths on OSM roads at boda speed (≈25 km/h). |
-| "Theta Road" | Name from local knowledge; OSM has no road by that name. |
+| Kimbo–Matangi flood spot | **Approximate**: just past Deliverance Church Theta, where residents reported the road impassable (Theta Ward group, 24 Mar 2026). The county drained floodwater from the road on 10 Mar 2026. |
+| Kimbo–Matangi detour | **Computed** on OSM: Thika Road, Kenyatta Road, the Theta bridge, then Judah–Magomano Road (9.5 km, +13 min). It leaves Kimbo–Matangi entirely because the road floods in sections. It is offered only while the Theta bridge is clear. No source names a boda detour. |
 
 ## Run it
 
@@ -120,7 +121,7 @@ Other scripts: `npm test`, `npm run lint`, `npm run typecheck`, `npm run data:ge
 ## Limitations
 
 - Triggers start from a single storm and a single dated news report. They become trustworthy only as riders report. The bands show this honestly.
-- Drain times are set per crossing type, not fitted. In the April test Kimbo–Matangi went back to CROSS at 04:15, but The Star's photos from later on 28 Apr still show standing water: this dip drains slower than the 1.5 h we gave it.
+- Drain times are set per crossing type, not fitted. In the April test Kimbo–Matangi went back to CROSS at 04:15, but the road stayed flooded through 28 Apr (The Star; [Kenyans.co.ke](https://www.kenyans.co.ke/news/122972-heavy-rains-cause-flood-chaos-nairobi-three-feared-dead-across-nairobi), 29 Apr): this dip drains far slower than the 1.5 h we gave it.
 - One gauge serves every crossing; the Ndarugu bridge is 13 km from it.
 - No user survey yet: the next step is a pilot with three boda stages and JKUAT before the October rains.
 - The Swahili copy needs review by a native speaker.

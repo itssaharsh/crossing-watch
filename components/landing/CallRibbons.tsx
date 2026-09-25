@@ -31,7 +31,7 @@ export function useLandingWorld() {
 
 const ROWS = [
   { id: "jkuat-culvert", note: "floods first, drains first" },
-  { id: "kimbo-matangi", note: "reroute via Theta Road" },
+  { id: "kimbo-matangi", note: "reroute via Kenyatta Road" },
   { id: "murera-drift", note: "a murram drift on the Thiririka" },
   { id: "ndarugu", note: "slow river: up past midnight" },
 ];
