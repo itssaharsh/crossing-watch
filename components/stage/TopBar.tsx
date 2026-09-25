@@ -82,7 +82,7 @@ export function DataSourceChip() {
           {s.source.kind === "demo"
             ? "Simulated, shaped like a March storm in Juja, with planted gauge faults. Every call on screen is computed from it."
             : s.source.kind === "station"
-              ? "JHUB Conduit weather station at JKUAT (the same gauge FlowSafe uses), 6–24 Mar 2026, read through its public API."
+              ? "Conduit@Empathy weather station at JKUAT (the same gauge FlowSafe uses), 6–24 Mar 2026, from its 15-minute records."
               : `Imported from ${s.source.fileName}.`}
         </p>
         <div className="mt-2 max-h-[40vh] overflow-y-auto">

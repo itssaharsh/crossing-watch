@@ -328,7 +328,7 @@ export function How() {
                 </li>
               ))}
               <li className="flex items-center gap-1.5 text-ink-muted">
-                <GGauge size={14} /> Rain: JHUB Conduit station, JKUAT (public API). Map: © OpenStreetMap contributors.
+                <GGauge size={14} /> Rain: Conduit@Empathy station, JKUAT. Map: © OpenStreetMap contributors.
               </li>
             </ul>
           </div>

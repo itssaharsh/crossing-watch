@@ -62,7 +62,7 @@ flowchart LR
 | Works on the real station data | `npm run verify`: on the 20 Mar storm, Kimbo–Matangi goes REROUTE via Theta Road at 18:00 saying it clears in ~2½ h; the call eases to WAIT at 20:30 and is back to CROSS at 21:15. |
 | Each crossing has its own signature | Same run: the JKUAT culvert clears at 20:15, Kimbo–Matangi at 21:15, the Ndarugu river at 01:30. |
 | Every tap sharpens it | Same run: one "flooded" tap at Ndarugu narrows its trigger from 28–88 mm to 25–57 mm (45% narrower) and flips WAIT → REROUTE. |
-| Handles broken gauges | The station's `rg1` column under-reports about 17×, so rain is read from its running daily total. Gauge 2's total goes backwards 375 times (it tracks daylight), so it's ignored. See the Data health tab and [ADR 004](docs/adr/004-station-data-and-fallback.md). |
+| Handles broken gauges | The station's `rg1` column under-reports about 17×, so rain is read from its running daily total. Gauge 2's "rain" column is really the light sensor (r = 0.9999 with `si1145_vis`), so it's ignored. See the Data health tab and [ADR 004](docs/adr/004-station-data-and-fallback.md). |
 | Never unsafe on bad data | Unit tests (`npm test`): silent gauge → NO CALL, never CROSS; fresh flood report → at least WAIT; no flicker. |
 | Designed, not templated | [DESIGN.md](DESIGN.md) (lint-clean design system), every component state at `/_kit`. |
 
@@ -70,7 +70,7 @@ flowchart LR
 
 | | Status |
 |---|---|
-| Rain series | **Real**: JHUB Conduit station at JKUAT, 6–24 Mar 2026 (public API), in `data/fixtures/`. A **simulated** fallback series (clearly labelled) runs when no station file is present. |
+| Rain series | **Real**: Conduit@Empathy station at JKUAT (CHORDS sensor 61), 6–24 Mar 2026, in `data/fixtures/`. Every row matches the Conduit dashboard archive for those dates. A **simulated** fallback series (clearly labelled) runs when no station file is present. |
 | Flood report that sets Kimbo–Matangi's trigger | **Real**: The Star, 9 Mar 2026, used as "flooded at some point" between the storm and publication. |
 | Other crossings' triggers | **Estimates** by crossing type until someone reports; wide dashed bands say so. |
 | Crossing locations, map, detours | **Real OpenStreetMap geometry**. The exact flooded spot on Kimbo–Matangi is approximate. Detours are shortest paths on OSM roads at boda speed (≈25 km/h). |
