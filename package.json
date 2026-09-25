@@ -1,0 +1,49 @@
+{
+  "name": "crossing-watch",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "verify": "tsx scripts/verify.ts",
+    "data:demo": "tsx scripts/make-demo-data.ts",
+    "data:ingest": "tsx scripts/ingest.ts",
+    "data:geo": "tsx scripts/build-geo.ts"
+  },
+  "dependencies": {
+    "@fontsource/atkinson-hyperlegible-next": "^5.3.0",
+    "@fontsource/barlow-condensed": "^5.3.0",
+    "@number-flow/react": "^0.6.2",
+    "@tabler/icons-react": "^3.48.0",
+    "cmdk": "^1.1.1",
+    "motion": "^13.4.3",
+    "next": "16.3.6",
+    "papaparse": "^5.7.0",
+    "qrcode.react": "^4.2.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "sonner": "^2.0.8"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/d3-contour": "^3.0.6",
+    "@types/node": "^22.20.4",
+    "@types/papaparse": "^5.5.2",
+    "@types/pngjs": "^6.0.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "d3-contour": "^4.0.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.6",
+    "playwright": "^1.63.0",
+    "pngjs": "^7.0.0",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.1"
+  }
+}

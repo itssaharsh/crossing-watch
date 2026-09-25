@@ -1,0 +1,126 @@
+import type { Call } from "./model/types";
+
+export type Lang = "en" | "sw";
+
+type Vars = Record<string, string | number>;
+type Entry = string | ((v: Vars) => string);
+
+const fill = (s: string, v: Vars) => s.replace(/\{(\w+)\}/g, (_, k) => String(v[k] ?? ""));
+
+// Swahili strings need review by a native speaker before any real launch.
+const EN: Record<string, Entry> = {
+  "verb.cross": "CROSS",
+  "verb.wait": "WAIT",
+  "verb.reroute": "REROUTE",
+  "verb.nocall": "NO CALL",
+  "reason.clear": "Clear now",
+  "reason.rising": "Clear now. Rising: may flood by {time}",
+  "reason.maybe_rising": "May be flooded, rising",
+  "reason.maybe_falling": "May still be flooded, draining",
+  "reason.flooded_for": "Likely flooded for ~{dur}",
+  "reason.clears_at": "Flooded, clears ~{time}",
+  "reason.reported": "Reported flooded {ago} min ago",
+  "reason.gauge_silent": "Gauge silent: check before you cross",
+  "action.use": "Use {road} · +{min} min",
+  "sub.rain_hour": "Rain last hour {mm} mm",
+  "sub.until": "until ~{time}",
+  "report.prompt": "What do you see at {name} right now?",
+  "report.flooded": "Flooded",
+  "report.clear": "Clear",
+  "report.sent": "Sent",
+  "toast.sharpened": "{name} trigger: {a}–{b} mm (was {a0}–{b0})",
+  "toast.sharpened.same": "{name}: report saved, trigger holds at {a}–{b} mm",
+  "toast.undo": "Undo",
+  "toast.removed": "Report removed",
+  "toast.remote": "A rider reported {name} {status}",
+  "share.send": "Send to stage group",
+  "share.copy": "Copy",
+  "share.copied": "Copied",
+  "why.bucket": "{s} mm of rain in the bucket; {r3} mm fell in the last 3 h",
+  "why.trigger": "Floods between {a} and {b} mm, learned from {n} report{ns} in {k} storm{ks}",
+  "why.estimate": "No reports yet: this trigger is a guess from similar crossings",
+  "why.outlook.flood": "If this rain eases as storms here usually do: passable ~{time}",
+  "why.outlook.rise": "If this rain keeps up, it may flood by {time}",
+  "why.outlook.calm": "No flood expected in the next 2 h at this rain",
+  "why.gauge": "Gauge {g} has no reading for the last 30 min",
+  "home.route": "On your route",
+  "home.others": "Other crossings",
+  "tab.crossings": "Crossings",
+  "tab.map": "Map",
+  "detour.title": "Detour",
+  "detour.none": "No detour mapped for this crossing",
+  "detour.risky": "may flood too. Wait instead",
+  "sub.clear3h": "Clear · {mm} mm in 3 h",
+  "sub.clears": "Clears ~{time}",
+  "sub.estimate": "Estimate only",
+  "sub.nodata": "No gauge reading",
+  "sub.maybe": "{p}% chance flooded",
+  "sub.rising": "May flood by {time}",
+  "back": "Crossings",
+  "replay": "Replay",
+  "gauge.fresh": "{g} · replay {day}",
+  "lang.name": "English",
+};
+
+const SW: Record<string, Entry> = {
+  "verb.cross": "VUKA",
+  "verb.wait": "SUBIRI",
+  "verb.reroute": "BADILI NJIA",
+  "verb.nocall": "HAIJULIKANI",
+  "reason.clear": "Iko wazi sasa",
+  "reason.rising": "Iko wazi. Maji yanapanda: huenda ifurike kufikia {time}",
+  "reason.maybe_rising": "Huenda imefurika, maji yanapanda",
+  "reason.maybe_falling": "Huenda bado imefurika, maji yanapungua",
+  "reason.flooded_for": "Huenda itabaki imefurika ~{dur}",
+  "reason.clears_at": "Imefurika, itapitika ~{time}",
+  "reason.reported": (v) => `Imeripotiwa kufurika dakika ${v.ago} ${Number(v.ago) === 1 ? "iliyopita" : "zilizopita"}`,
+  "reason.gauge_silent": "Kipimo cha mvua hakipatikani: angalia kabla ya kuvuka",
+  "action.use": "Pita {road} · dakika {min} zaidi",
+  "sub.rain_hour": "Mvua ya saa iliyopita: {mm} mm",
+  "sub.until": "hadi ~{time}",
+  "report.prompt": "Unaona nini pale {name} sasa hivi?",
+  "report.flooded": "Imefurika",
+  "report.clear": "Inapitika",
+  "report.sent": "Imetumwa",
+  "toast.sharpened": "{name}: kiwango cha kufurika {a}–{b} mm (awali {a0}–{b0})",
+  "toast.sharpened.same": "{name}: ripoti imehifadhiwa, kiwango kinabaki {a}–{b} mm",
+  "toast.undo": "Tendua",
+  "toast.removed": "Ripoti imeondolewa",
+  "toast.remote": "Mwendeshaji ameripoti {name}: {status}",
+  "share.send": "Tuma kwa kikundi cha stage",
+  "share.copy": "Nakili",
+  "share.copied": "Imenakiliwa",
+  "why.bucket": "Mvua iliyokusanyika: {s} mm; {r3} mm ndani ya saa 3 zilizopita",
+  "why.trigger": "Hufurika kati ya {a} na {b} mm; tumejifunza kutoka ripoti {n} za dhoruba {k}",
+  "why.estimate": "Hakuna ripoti bado: kiwango hiki ni makadirio kutoka vivuko vinavyofanana",
+  "why.outlook.flood": "Mvua ikipungua kama kawaida: itapitika ~{time}",
+  "why.outlook.rise": "Mvua ikiendelea hivi, huenda ifurike kufikia {time}",
+  "why.outlook.calm": "Hakuna mafuriko yanayotarajiwa katika saa 2 zijazo kwa mvua hii",
+  "why.gauge": "Kipimo {g} hakina data kwa dakika 30 zilizopita",
+  "home.route": "Kwenye njia yako",
+  "home.others": "Vivuko vingine",
+  "tab.crossings": "Vivuko",
+  "tab.map": "Ramani",
+  "detour.title": "Njia mbadala",
+  "detour.none": "Hakuna njia mbadala iliyowekwa kwa kivuko hiki",
+  "detour.risky": "huenda nayo ifurike. Bora usubiri",
+  "sub.clear3h": "Wazi · {mm} mm ndani ya saa 3",
+  "sub.clears": "Itapitika ~{time}",
+  "sub.estimate": "Makadirio tu",
+  "sub.nodata": "Hakuna data ya kipimo",
+  "sub.maybe": "Huenda imefurika ({p}%)",
+  "sub.rising": "Huenda ifurike kufikia {time}",
+  "back": "Vivuko",
+  "replay": "Marudio",
+  "gauge.fresh": "{g} · marudio {day}",
+  "lang.name": "Kiswahili",
+};
+
+const DICTS: Record<Lang, Record<string, Entry>> = { en: EN, sw: SW };
+
+export function t(lang: Lang, key: string, vars: Vars = {}): string {
+  const e = DICTS[lang][key] ?? EN[key] ?? key;
+  return typeof e === "function" ? e(vars) : fill(e, vars);
+}
+
+export const verbKey = (c: Call) => `verb.${c}`;

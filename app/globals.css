@@ -1,0 +1,198 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --canvas: #e3e7e7;
+  --surface-1: #f0f3f3;
+  --surface-2: #d4dadb;
+  --line: #b3bcbe;
+  --line-strong: color-mix(in oklch, var(--line), var(--ink) 25%);
+  --ink: #0e1a20;
+  --ink-muted: #4b5a5f;
+  --accent: #0b67a3;
+  --accent-ink: #ffffff;
+  --accent-hover: oklch(from var(--accent) calc(l - 0.06) c h);
+  --accent-press: oklch(from var(--accent) calc(l - 0.12) c h);
+  --accent-soft: color-mix(in oklch, var(--accent) 12%, var(--canvas));
+  --focus: var(--ink);
+  --rain: #2c7fb8;
+  --cross: #1b7340;
+  --cross-text: #1b6b3c;
+  --wait: #f0a500;
+  --wait-text: #7a5200;
+  --reroute: #c42b1c;
+  --reroute-text: #b02617;
+  --nocall: #5b676b;
+  --on-signal: #ffffff;
+  --murram: #9a4a26;
+
+  --r-sm: 3px;
+  --r-md: 6px;
+  --r-lg: 10px;
+
+  --shadow-1: 0 1px 0 color-mix(in oklch, var(--ink) 6%, transparent), 0 1px 3px color-mix(in oklch, var(--ink) 8%, transparent);
+  --shadow-2: 0 2px 4px color-mix(in oklch, var(--ink) 6%, transparent), 0 12px 32px -8px color-mix(in oklch, var(--ink) 20%, transparent);
+  --shadow-device: 0 2px 4px color-mix(in oklch, var(--ink) 6%, transparent), 0 24px 48px -12px color-mix(in oklch, var(--ink) 28%, transparent);
+
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --ease-enter: cubic-bezier(0.05, 0.7, 0.1, 1);
+  --ease-exit: cubic-bezier(0.3, 0, 0.8, 0.15);
+  --dur-press: 120ms;
+  --dur-hover: 150ms;
+  --dur-pop: 200ms;
+  --dur-modal: 280ms;
+  --dur-exit: 150ms;
+
+  --hatch: repeating-linear-gradient(135deg, color-mix(in oklch, var(--nocall) 45%, transparent) 0 2px, transparent 2px 6px);
+}
+
+@theme inline {
+  --color-canvas: var(--canvas);
+  --color-surface-1: var(--surface-1);
+  --color-surface-2: var(--surface-2);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-accent: var(--accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-hover: var(--accent-hover);
+  --color-accent-press: var(--accent-press);
+  --color-accent-soft: var(--accent-soft);
+  --color-rain: var(--rain);
+  --color-cross: var(--cross);
+  --color-cross-text: var(--cross-text);
+  --color-wait: var(--wait);
+  --color-wait-text: var(--wait-text);
+  --color-reroute: var(--reroute);
+  --color-reroute-text: var(--reroute-text);
+  --color-nocall: var(--nocall);
+  --color-on-signal: var(--on-signal);
+  --color-murram: var(--murram);
+  --font-display: var(--ff-display);
+  --font-sans: var(--ff-body);
+  --font-mono: var(--ff-mono);
+  --radius-sm: var(--r-sm);
+  --radius-md: var(--r-md);
+  --radius-lg: var(--r-lg);
+  --shadow-pop: var(--shadow-2);
+  --shadow-device: var(--shadow-device);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+  body {
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: var(--ff-body), system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+  p {
+    text-wrap: pretty;
+  }
+  :focus-visible {
+    outline: 2px solid var(--focus);
+    outline-offset: 2px;
+  }
+  button {
+    cursor: pointer;
+  }
+  button:disabled {
+    cursor: not-allowed;
+  }
+  ::selection {
+    background: color-mix(in oklch, var(--accent) 22%, transparent);
+  }
+  html {
+    scrollbar-color: var(--line) transparent;
+    scrollbar-width: thin;
+    caret-color: var(--accent);
+  }
+  a {
+    text-underline-offset: 3px;
+  }
+}
+
+@utility tnum {
+  font-variant-numeric: tabular-nums;
+}
+
+@utility label {
+  font-family: var(--ff-body), system-ui, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@utility hatch {
+  background-image: var(--hatch);
+}
+
+/* Skeleton shimmer; static under reduced motion (see below) */
+.sk {
+  background: linear-gradient(90deg, var(--surface-2) 0%, var(--surface-1) 50%, var(--surface-2) 100%) 0 0 / 200% 100%;
+  animation: sk 1.5s linear infinite;
+}
+@keyframes sk {
+  to {
+    background-position: -200% 0;
+  }
+}
+
+/* Pulse ring for a crossing that just went red (T-02) */
+@keyframes ring {
+  from {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  to {
+    transform: scale(2.4);
+    opacity: 0;
+  }
+}
+
+/* Popover / overlay entrance */
+@keyframes pop {
+  from {
+    opacity: 0;
+    transform: translateY(-4px) scale(0.97);
+  }
+}
+
+/* Live dot */
+@keyframes live {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .sk {
+    animation: none;
+  }
+}

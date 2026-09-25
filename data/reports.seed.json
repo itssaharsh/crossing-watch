@@ -1,0 +1,61 @@
+{
+  "note": "Seed reports that set each crossing's starting trigger. 'station' reports are real (dated news); 'simulated' ones are demo examples that go with the simulated series only.",
+  "reports": [
+    {
+      "id": "news-km-2026-03-09",
+      "crossingId": "kimbo-matangi",
+      "time": "2026-03-06T21:00",
+      "until": "2026-03-09T12:00",
+      "status": "flooded",
+      "source": "news",
+      "dataset": "station",
+      "note": "The Star, 9 Mar 2026: “[PHOTOS] Motorists wade through flooded roads in Juja”. Kimbo–Matangi Road under water after the 6–7 March rain. Exact time unknown, so it counts as ‘flooded at some point’ between the storm and publication.",
+      "url": "https://www.the-star.co.ke/news/2026-03-09-photos-motorists-wade-through-flooded-roads-in-juja"
+    },
+    {
+      "id": "seed-km-1",
+      "crossingId": "kimbo-matangi",
+      "time": "2026-03-13T17:45",
+      "status": "clear",
+      "source": "seed",
+      "note": "Rider: passable after Friday showers (demo)",
+      "dataset": "simulated"
+    },
+    {
+      "id": "seed-km-2",
+      "crossingId": "kimbo-matangi",
+      "time": "2026-03-15T15:30",
+      "status": "flooded",
+      "source": "seed",
+      "note": "Photo: water over the road, boda turning back (demo)",
+      "dataset": "simulated"
+    },
+    {
+      "id": "seed-km-3",
+      "crossingId": "kimbo-matangi",
+      "time": "2026-03-15T16:45",
+      "status": "clear",
+      "source": "seed",
+      "note": "Rider: water off the road (demo)",
+      "dataset": "simulated"
+    },
+    {
+      "id": "seed-th-1",
+      "crossingId": "theta-bridge",
+      "time": "2026-03-15T15:45",
+      "status": "clear",
+      "source": "seed",
+      "note": "Rider: bridge fine during Sunday storm (demo)",
+      "dataset": "simulated"
+    },
+    {
+      "id": "seed-nd-1",
+      "crossingId": "ndarugu",
+      "time": "2026-03-15T16:30",
+      "status": "clear",
+      "source": "seed",
+      "note": "Rider: river high but below the deck (demo)",
+      "dataset": "simulated"
+    }
+  ]
+}

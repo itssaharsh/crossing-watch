@@ -1,0 +1,9 @@
+.cache
+.data
+.impeccable
+graphify-out
+data/fixtures
+docs/img
+*.log
+.env*.local
+demo-video
