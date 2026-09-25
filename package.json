@@ -13,7 +13,8 @@
     "backtest": "tsx scripts/backtest.ts",
     "data:demo": "tsx scripts/make-demo-data.ts",
     "data:ingest": "tsx scripts/ingest.ts",
-    "data:geo": "tsx scripts/build-geo.ts"
+    "data:geo": "tsx scripts/build-geo.ts",
+    "data:fetch": "tsx --env-file-if-exists=.env.local scripts/fetch-conduit.ts"
   },
   "dependencies": {
     "@fontsource/atkinson-hyperlegible-next": "^5.3.0",

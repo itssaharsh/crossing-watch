@@ -1,6 +1,6 @@
 # ADR 004: Real JKUAT data by default, a labelled simulation as fallback
 
-**Decision.** The default series is the JHUB Conduit station at JKUAT (6–24 Mar 2026), ingested with `npm run data:ingest`. If that file is absent, the app uses a seeded simulated series that is always labelled "Simulated gauge series".
+**Decision.** The default series is the JHUB Conduit station at JKUAT (6–24 Mar 2026), pulled from the Conduit API (`npm run data:fetch`) and ingested with `npm run data:ingest`. If that file is absent, the app uses a seeded simulated series that is always labelled "Simulated gauge series".
 
 **Findings that shaped the importer.**
 - The station's `rg1` column sums to 10.6 mm over the file, while its running daily total `rg1tt` gives 179.4 mm. We read rain from the daily total's increments (it resets at ~09:05 EAT; the station firmware rolls the day over at 06:00 UTC).

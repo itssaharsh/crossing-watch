@@ -6,9 +6,8 @@
  * Kimbo–Matangi Road flooded on 28 Apr "after heavy rains pounded the area
  * last night". The question: did the model call it before that story ran?
  *
- * April rows: the Conduit dashboard export archived in
- * github.com/vinnienovah/Afya-Mazingira (MIT) at commit 37946ea. Its 1,805
- * March rows match data/fixtures/jkuat-conduit-2026-03.csv exactly.
+ * April rows: pulled from the Conduit API with `npm run data:fetch`, like the
+ * March file.
  */
 import { readFileSync } from "node:fs";
 import { join } from "node:path";

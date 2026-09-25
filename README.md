@@ -71,7 +71,7 @@ flowchart LR
 
 | | Status |
 |---|---|
-| Rain series | **Real**: Conduit@Empathy station at JKUAT (CHORDS sensor 61), 6–24 Mar 2026, in `data/fixtures/`. Every row matches the Conduit dashboard archive for those dates. The held-out April rows (18–30 Apr) come from the same dashboard export, archived in [Afya-Mazingira](https://github.com/vinnienovah/Afya-Mazingira) (MIT). A **simulated** fallback series (clearly labelled) runs when no station file is present. |
+| Rain series | **Real**: Conduit@Empathy station at JKUAT (CHORDS sensor 61), 6–24 Mar 2026, in `data/fixtures/`, pulled from the Conduit API (`npm run data:fetch`, needs your own key). The held-out April rows (18–30 Apr) come from the same API. A **simulated** fallback series (clearly labelled) runs when no station file is present. |
 | Flood report that sets Kimbo–Matangi's trigger | **Real**: The Star, 9 Mar 2026, used as "flooded at some point" between the storm and publication. |
 | Other crossings' triggers | **Estimates** by crossing type until someone reports; wide dashed bands say so. |
 | Crossing locations, map, detours | **Real OpenStreetMap geometry**. The exact flooded spot on Kimbo–Matangi is approximate. Detours are shortest paths on OSM roads at boda speed (≈25 km/h). |
@@ -85,6 +85,7 @@ npm install
 npm run dev              # http://localhost:3000  (use: npx next dev -p 3100 if 3000 is busy)
 npm run verify           # the demo scenario, headless, PASS/FAIL
 npm run backtest         # the held-out April storm, call by call
+CONDUIT_EMAIL=… CONDUIT_API_KEY=… npm run data:fetch -- 2026-04-18 2026-04-30 out.csv   # any dates, from the station
 ```
 
 | Route | What it is |
@@ -129,4 +130,4 @@ Other scripts: `npm test`, `npm run lint`, `npm run typecheck`, `npm run data:ge
 
 ## Credits
 
-Map data © OpenStreetMap contributors (ODbL). Rain data: JHUB Africa Conduit@Empathy station, JKUAT; April rows via the Afya-Mazingira archive. News sources are linked above and on `/how`. Built with Claude Code. Design system in [DESIGN.md](DESIGN.md); architecture decisions in [docs/adr](docs/adr).
+Map data © OpenStreetMap contributors (ODbL). Rain data: JHUB Africa Conduit@Empathy station, JKUAT, via the Conduit API. News sources are linked above and on `/how`. Built with Claude Code. Design system in [DESIGN.md](DESIGN.md); architecture decisions in [docs/adr](docs/adr).
