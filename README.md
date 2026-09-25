@@ -4,7 +4,7 @@
 
 **Live:** [crossing-watch.vercel.app](https://crossing-watch.vercel.app) · the demo screen: [/replay](https://crossing-watch.vercel.app/replay) · the rider app: [/app](https://crossing-watch.vercel.app/app)
 
-**Demo video (2:23):** [docs/demo/crossing-watch-demo.mp4](docs/demo/crossing-watch-demo.mp4)
+**Demo video (2:41):** [docs/demo/crossing-watch-demo.mp4](docs/demo/crossing-watch-demo.mp4)
 
 [![Demo video: Crossing Watch replaying the 20 March 2026 storm](docs/img/demo-thumbnail.jpg)](docs/demo/crossing-watch-demo.mp4)
 
